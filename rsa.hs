@@ -89,8 +89,8 @@ generateKey keyLength g =
     let len_p = keyLength `div` 2
         --in case key_length is odd 
         len_q = keyLength - len_p
-        p = head [x | x <- randomRs (2^len_p,2^(len_p+1)) g, millerTest x 10 g]
-        q = head [x | x <- randomRs (2^len_q,2^(len_q+1)) g, millerTest x 10 g, x/=p]
+        p = head [x | x <- randomRs (2^len_p,2^(len_p+1)-1) g, millerTest x 10 g]
+        q = head [x | x <- randomRs (2^len_q,2^(len_q+1)-1) g, millerTest x 10 g, x/=p]
         n = p*q
         e = 65537
         t = carmichael_function p q
