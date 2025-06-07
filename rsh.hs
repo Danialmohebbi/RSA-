@@ -21,13 +21,13 @@ exponentiation_by_squaring x n m
 
 inverse :: Integer -> Integer -> Integer
 inverse e t = 
-    let x = go t e 0 1
+    let x = go e t 0 1
     in if x < 0 then x + t else x
     where
-        go _ 1 _ s' = s'
-        go r r' s s' = 
+        go 1 _ _ s' = s'
+        go r' r s s' = 
             let quitent  = r `div` r'
-            in go r' (r - quitent*r') s' (s - quitent*s')
+            in go (r - quitent*r') r'  s' (s - quitent*s')
 
 
 decompose n = go 0 (n-1) 
@@ -146,6 +146,9 @@ main = do
             putStrLn (decrypt input (d,n))
         
         _ -> putStrLn "Error"
+
+
+
 
 
 
