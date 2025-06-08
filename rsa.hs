@@ -39,7 +39,7 @@ decompose n = go 0 (n-1)
 --implementation of miller's primarilty test https://en.wikipedia.org/wiki/Miller–Rabin_primality_test
 millerTest :: Integer -> Int -> StdGen -> Bool
 millerTest n k g = 
-    --this is equivelent to 2^{s}d = n-1
+
     let (s, d) = decompose n
         samples = take k $ randomRs (2, n - 2) g
         test :: Integer -> Bool
@@ -85,7 +85,6 @@ decrypt input (d,n) = concatMap (\b -> decryptBlock b (d,n)) (words input)
 generateKey :: Integer -> StdGen -> (Integer,Integer,Integer)
 generateKey keyLength g =
     let len_p = keyLength `div` 2
-        --in case key_length is odd 
         len_q = keyLength - len_p
         xs = [x | x <- randomRs (2^len_p,2^(len_p+1)-1) g]
         p = head (filter (\x -> millerTest x 10 g) xs)
