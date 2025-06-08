@@ -3,7 +3,6 @@ import GHC.IO.Encoding.Latin1 (ascii)
 import System.Environment
 import Data.Char (ord)
 import GHC.Char  
-import GHC.Read (readField)
 
 --implementation of https://en.wikipedia.org/wiki/Carmichael_function
 --actually this can be replaced with just (p-1)*(q-1) as mentioned on the wiki
@@ -82,15 +81,16 @@ decryptBlock b (d,n) =
 
 decrypt :: String -> (Integer,Integer) -> String
 decrypt input (d,n) = concatMap (\b -> decryptBlock b (d,n)) (words input)
-
 --RSA's Key generation part where (e,n) is the public key and (d,n) the private key
 generateKey :: Integer -> StdGen -> (Integer,Integer,Integer)
 generateKey keyLength g =
     let len_p = keyLength `div` 2
         --in case key_length is odd 
         len_q = keyLength - len_p
-        p = head [x | x <- randomRs (2^len_p,2^(len_p+1)-1) g, millerTest x 10 g]
-        q = head [x | x <- randomRs (2^len_q,2^(len_q+1)-1) g, millerTest x 10 g, x/=p]
+        xs = [x | x <- randomRs (2^len_p,2^(len_p+1)-1) g]
+        p = head (filter (\x -> millerTest x 10 g) xs)
+        ys = [x | x <- randomRs (2^len_q,2^(len_q+1)-1) g,x/=p]
+        q = head (filter (\x -> millerTest x 10 g) ys)
         n = p*q
         e = 65537
         t = carmichael_function p q
@@ -146,11 +146,5 @@ main = do
             putStrLn (decrypt input (d,n))
         
         _ -> putStrLn "Error"
-
-
-
-
-
-
 
     
