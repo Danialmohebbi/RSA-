@@ -2,7 +2,7 @@
 RSA is one of the oldest and most commonly used public-key cryptosystem.
 it uses two keys which are public and private keys and distinct.
 the security of RSA is due to the diffculty of factoring the primes generated in 
-[Key generation](https://en.wikipedia.org/wiki/RSA_cryptosystem#Key_generation) which are used in the encryption and decryption of the data.
+[Key generation](https://en.wikipedia.org/wiki/RSA_cryptosystem#Key_generation) which are used to make the keys in the encryption and decryption of the data.
 
 
 ## Possible Commands
