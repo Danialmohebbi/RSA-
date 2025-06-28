@@ -13,7 +13,7 @@ the security of RSA is due to the diffculty of factoring the primes generated in
   ```
 2. Encryption
   ```bash
-  runhaskell rsa.hs -encrypt [keyFileName] [toEncryptFileName] -o [decryptedFileName]
+  runhaskell rsa.hs -encrypt [keyFileName] [toEncryptFileName] -o [encryptedFileName]
   runhaskell rsa.hs -encrypt [keyFileName] [toEncryptFileName]
   ```
 3. Decryption
