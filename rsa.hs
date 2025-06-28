@@ -156,6 +156,12 @@ main = do
             (d,n,input) <-  readInput keyFile inputFile
             putStrLn (decrypt input (d,n))
         
-        _ -> putStrLn "Error"
+        _ -> putStrLn $ "Incorrect Command, Please make sure it is one of the following:\n\n" ++
+                      "runhaskell rsa.hs -gen-key [n] -name [KeyName]\n" ++
+                      "runhaskell rsa.hs -gen-key [n]\n" ++
+                      "runhaskell rsa.hs -encrypt [keyFileName] [toEncryptFileName] -o [encryptedFileName]\n" ++
+                      "runhaskell rsa.hs -encrypt [keyFileName] [toEncryptFileName]\n" ++
+                      "runhaskell rsa.hs -decrypt [keyFileName] [toDecryptFileName] -o [decryptedFileName]" ++
+                      "runhaskell rsa.hs -encrypt [keyFileName] [toDecryptFileName]"
 
     
