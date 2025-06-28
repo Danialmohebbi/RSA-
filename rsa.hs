@@ -69,18 +69,30 @@ getChunks n s =
 
 encrypt :: String -> (Integer,Integer,Integer) -> String
 encrypt fileContent (e,n,blockSize) = 
-    let blocks = getChunks blockSize fileContent
-        encryptedBlocks = map (\b -> show(exponentiation_by_squaring (asciToNum b) e n )) blocks
-    in unwords encryptedBlocks
+    let fileLines = lines fileContent 
+    in unlines (map encryptLine fileLines)
+    where
+        encryptLine line = 
+            let blocks = getChunks blockSize line 
+            in unwords (map (\b -> show (exponentiation_by_squaring (asciToNum b) e n)) blocks) 
 
 decryptBlock :: String -> (Integer,Integer) -> String
 decryptBlock b (d,n) =
     let num = read b :: Integer
         res = exponentiation_by_squaring num d n
     in numToasci res
-
+ 
 decrypt :: String -> (Integer,Integer) -> String
-decrypt input (d,n) = concatMap (\b -> decryptBlock b (d,n)) (words input)
+decrypt input (d,n) = 
+    let fileLines = lines input
+    in unlines (map (reverse . decryptLine) fileLines)
+    where
+        decryptLine line = 
+            let blocks = words line
+            in concatMap (\b -> numToasci (exponentiation_by_squaring (read b) d n)) blocks
+
+    
+   
 --RSA's Key generation part where (e,n) is the public key and (d,n) the private key
 generateKey :: Integer -> StdGen -> (Integer,Integer,Integer)
 generateKey keyLength g =
